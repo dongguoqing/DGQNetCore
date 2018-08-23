@@ -1,0 +1,2 @@
+# DGQNetCore
+.netcore项目
