@@ -27,5 +27,11 @@ namespace DGQ.Service
             }
             return pagedList;
         }
+
+        public void AddUser(UserInfo userInfo)
+        {
+            _userRepository.Insert(userInfo);
+            _userRepository.Save();
+        }
     }
 }

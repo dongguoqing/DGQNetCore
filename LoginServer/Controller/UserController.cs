@@ -57,11 +57,8 @@ namespace LoginServer.Controller
                 Uid = userViewModel.RoleId,
                 UserName = userViewModel.UserName
             };
-            _context.Users.Add(userInfo);
-            int rows = _context.SaveChanges();
-            string result = string.Empty;
-            result = rows > 0 ? "ok" : "error";
-            return Content(result, "application/text");
+            _userService.AddUser(userInfo);
+            return Content("ok", "application/text");
         }
 
         [HttpGet(nameof(DelUser))]
