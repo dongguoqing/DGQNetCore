@@ -37,7 +37,7 @@ namespace DGQ.Repository.EF
             List<UserViewModel> list = null;
             if (count > 0)
                 list = await listUser.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new PaginatedList<UserViewModel>(pageIndex, pageSize, count, new List<UserViewModel>());
+            return new PaginatedList<UserViewModel>(pageIndex, pageSize, count, list);
         }
     }
 }

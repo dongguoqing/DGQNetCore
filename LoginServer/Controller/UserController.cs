@@ -1,9 +1,10 @@
-﻿using LoginServer.ViewModel;
+﻿using DGQ.Service.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Model;
+using Model.ViewModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,13 @@ namespace LoginServer.Controller
         private ApiDBContent _context;
         private IMemoryCache _cache;
         private readonly ILogger<UserController> nLogger2;
+        private readonly IUserService _userService;
 
-        public UserController(ApiDBContent context, IMemoryCache cache, ILogger<UserController> logger2)
+        public UserController(ApiDBContent context, IMemoryCache cache, ILogger<UserController> logger2,IUserService userService)
         {
             nLogger2 = logger2;
             this._context = context;
+            this._userService = userService;
             this._cache = cache;
         }
 
@@ -31,31 +34,13 @@ namespace LoginServer.Controller
         [Route("api/User/GetUserList")]
         public async Task<ActionResult> GetUserList(int pageIndex, int pageSize)
         {
+            PaginatedList<UserViewModel> pagedList =  await _userService.GetUserInfoAsync(1, 10);
+            Console.WriteLine(pagedList.Items.Count);
+            Console.WriteLine(pagedList.Count);
             //写入日志
             nLogger2.LogInformation("nloginfo2");
             nLogger2.LogError("nlogerror2", new Exception("自定义异常"));
-            var listUser = (from a in _context.Users
-                            join b in _context.UserRole on a.Uid equals b.Id.ToString()
-                            select new
-                            {
-                                Id = a.Id,
-                                Email = a.Email,
-                                Name = a.Name,
-                                UserName = a.UserName,
-                                Uid = a.Uid,
-                                Enable = a.Enable,
-                                Sex = a.Sex,
-                                RoleName = b.RoleName,
-                            }).ToList();
-            var totalCount = listUser.Count();
-            var resultData = listUser.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            var data = new
-            {
-                totalCount,
-                resultData
-            };
-            Console.WriteLine(JsonConvert.SerializeObject(data));
-            return Content(JsonConvert.SerializeObject(data), "application/text");
+            return Content(JsonConvert.SerializeObject(pagedList), "application/text");
         }
 
         [HttpPost(nameof(AddUser))]

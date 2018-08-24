@@ -1,10 +1,10 @@
 ﻿{
   "modules": [
     {
-      "type": "Account.Repository.EF.RepositoryModule, Account.Repository.EF"
+      "type": "DGQ.Repository.EF.RepositoryModule, DGQ.Repository.EF"
     },
     {
-      "type": "Account.Service.ServiceModule, Account.Service"
+      "type": "DGQ.Service.ServiceModule, DGQ.Service"
     }
   ]
 }

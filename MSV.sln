@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsgService", "MsgService\MsgService.csproj", "{B6C60DB7-83CD-49B3-B753-FADF39D339A5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService", "ProductService\ProductService.csproj", "{8BD049BD-6289-4F98-A638-CA227371419B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeb", "MyWeb\MyWeb.csproj", "{D459665B-6259-461C-BD8A-66262E18DD36}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ocelot_id", "ocelot_id", "{3D1AB5AF-EE31-4BAF-82D0-1514C1786ACA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ID4.IdServer", "ID4.IdServer\ID4.IdServer.csproj", "{08ECA8A6-BC11-463B-89DF-67B94D047904}"
@@ -25,17 +19,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "基础结构层", "基础�
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Code", "DGQ.Code\DGQ.Code.csproj", "{632D09B3-6424-4D62-9DFE-D76384FF7360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGQ.Infrustructure.Contract", "DGQ.Infrustructure.Contract\DGQ.Infrustructure.Contract.csproj", "{A5DFF896-5213-4A0A-9258-4BBC12410159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Infrustructure.Contract", "DGQ.Infrustructure.Contract\DGQ.Infrustructure.Contract.csproj", "{A5DFF896-5213-4A0A-9258-4BBC12410159}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGQ.Infrustructure.EF", "DGQ.Infrustructure.EF\DGQ.Infrustructure.EF.csproj", "{6433AD00-364E-4318-B129-8E713C5CBAE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Infrustructure.EF", "DGQ.Infrustructure.EF\DGQ.Infrustructure.EF.csproj", "{6433AD00-364E-4318-B129-8E713C5CBAE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGQ.Repository.Contract", "DGQ.Repository.Contract\DGQ.Repository.Contract.csproj", "{2E81C082-4CBA-48BF-920B-76DD42A82E38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Repository.Contract", "DGQ.Repository.Contract\DGQ.Repository.Contract.csproj", "{2E81C082-4CBA-48BF-920B-76DD42A82E38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGQ.Repository.EF", "DGQ.Repository.EF\DGQ.Repository.EF.csproj", "{78D17688-ED6F-471C-A5CD-FE21B39A15DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Repository.EF", "DGQ.Repository.EF\DGQ.Repository.EF.csproj", "{78D17688-ED6F-471C-A5CD-FE21B39A15DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGQ.Service", "DGQ.Service\DGQ.Service.csproj", "{69806A46-A889-4D33-9294-360513CE9A6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Service", "DGQ.Service\DGQ.Service.csproj", "{69806A46-A889-4D33-9294-360513CE9A6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGQ.Service.Contract", "DGQ.Service.Contract\DGQ.Service.Contract.csproj", "{71B156B5-B961-4540-9809-6C112CEC08B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGQ.Service.Contract", "DGQ.Service.Contract\DGQ.Service.Contract.csproj", "{71B156B5-B961-4540-9809-6C112CEC08B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,18 +37,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B6C60DB7-83CD-49B3-B753-FADF39D339A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6C60DB7-83CD-49B3-B753-FADF39D339A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B6C60DB7-83CD-49B3-B753-FADF39D339A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6C60DB7-83CD-49B3-B753-FADF39D339A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BD049BD-6289-4F98-A638-CA227371419B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BD049BD-6289-4F98-A638-CA227371419B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BD049BD-6289-4F98-A638-CA227371419B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BD049BD-6289-4F98-A638-CA227371419B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D459665B-6259-461C-BD8A-66262E18DD36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D459665B-6259-461C-BD8A-66262E18DD36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D459665B-6259-461C-BD8A-66262E18DD36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D459665B-6259-461C-BD8A-66262E18DD36}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08ECA8A6-BC11-463B-89DF-67B94D047904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08ECA8A6-BC11-463B-89DF-67B94D047904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08ECA8A6-BC11-463B-89DF-67B94D047904}.Release|Any CPU.ActiveCfg = Release|Any CPU
