@@ -1,0 +1,43 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
+<#@ include file="$(SolutionDir)DGQ.Code\Extensions\DbHelper.ttinclude"  #>
+
+
+using NFine.Data;
+using NFine.Domain.Entity.SystemManage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NFine.Domain.IRepository.SystemManage
+{    
+<# foreach(string str in config.TableName.Split(new char[] { ','},StringSplitOptions.RemoveEmptyEntries)){#>
+
+<# 
+    var tableName=str.Replace("Sys_","")+"Repository";
+    var entity=str.Replace("Sys_","")+"Entity";
+ #>
+
+    /// <summary>
+    /// <#=tableName#>
+    /// </summary>    
+    public partial interface I<#=tableName#>:IRepositoryBase<<#=entity#>>
+    {
+
+    }
+		<#}#> 
+}

@@ -21,39 +21,54 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.Module", b =>
                 {
-                    b.Property<int>("ModuleCode")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("F_Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("Guid");
+                    b.Property<bool?>("F_AllowDelete");
 
-                    b.Property<bool>("IsBigTable");
+                    b.Property<bool?>("F_AllowEdit");
 
-                    b.Property<int>("LimitCount");
+                    b.Property<DateTime?>("F_CreatorTime");
 
-                    b.Property<string>("ModuleBrief");
+                    b.Property<string>("F_CreatorUserId");
 
-                    b.Property<string>("ModuleIcon");
+                    b.Property<bool?>("F_DeleteMark");
 
-                    b.Property<string>("ModuleIndex");
+                    b.Property<DateTime?>("F_DeleteTime");
 
-                    b.Property<int>("ModuleLevel");
+                    b.Property<string>("F_DeleteUserId");
 
-                    b.Property<string>("ModuleName");
+                    b.Property<string>("F_Description");
 
-                    b.Property<int>("ModulePosition");
+                    b.Property<string>("F_EnCode");
 
-                    b.Property<int>("ModuleStatus");
+                    b.Property<bool?>("F_EnabledMark");
 
-                    b.Property<int>("ModuleType");
+                    b.Property<string>("F_FullName");
 
-                    b.Property<string>("ModuleUrl");
+                    b.Property<string>("F_Icon");
 
-                    b.Property<Guid>("UpperGuid");
+                    b.Property<bool?>("F_IsExpand");
 
-                    b.Property<string>("UseActions");
+                    b.Property<bool?>("F_IsMenu");
 
-                    b.HasKey("ModuleCode");
+                    b.Property<bool?>("F_IsPublic");
+
+                    b.Property<DateTime?>("F_LastModifyTime");
+
+                    b.Property<string>("F_LastModifyUserId");
+
+                    b.Property<int?>("F_Layers");
+
+                    b.Property<string>("F_ParentId");
+
+                    b.Property<int?>("F_SortCode");
+
+                    b.Property<string>("F_Target");
+
+                    b.Property<string>("F_UrlAddress");
+
+                    b.HasKey("F_Id");
 
                     b.ToTable("Module");
                 });

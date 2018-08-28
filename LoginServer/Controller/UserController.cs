@@ -15,14 +15,14 @@ namespace LoginServer.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
         private ApiDBContent _context;
         private IMemoryCache _cache;
         private readonly ILogger<UserController> nLogger2;
         private readonly IUserService _userService;
 
-        public UserController(ApiDBContent context, IMemoryCache cache, ILogger<UserController> logger2,IUserService userService)
+        public UserController(ApiDBContent context, IMemoryCache cache, ILogger<UserController> logger2, IUserService userService)
         {
             nLogger2 = logger2;
             this._context = context;
@@ -34,7 +34,7 @@ namespace LoginServer.Controller
         [Route("api/User/GetUserList")]
         public async Task<ActionResult> GetUserList(int pageIndex, int pageSize)
         {
-            PaginatedList<UserViewModel> pagedList =  await _userService.GetUserInfoAsync(1, 10);
+            PaginatedList<UserViewModel> pagedList = await _userService.GetUserInfoAsync(pageIndex, pageSize);
             Console.WriteLine(pagedList.Items.Count);
             Console.WriteLine(pagedList.Count);
             //写入日志
@@ -85,8 +85,7 @@ namespace LoginServer.Controller
                 Uid = userViewModel.RoleId,
                 UserName = userViewModel.UserName
             };
-            _context.Set<UserInfo>().Attach(userInfo);
-            _context.Entry(userInfo).State = EntityState.Modified;
+            _userService.EditUser(userInfo);
             return Content("ok", "application/text");
         }
 

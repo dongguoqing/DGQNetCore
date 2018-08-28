@@ -1,9 +1,9 @@
 ﻿引用EntityFrameCore 
-Install-Package Microsoft.EntityFrameworkCore
+Install-Package Microsoft.EntityFrameworkCore -version 2.1.0
 引用 EntityFrameworkCore.SqlServer
-Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.SqlServer -version 2.1.0
 引用 EntityFrameworkCore.SqlServer.Tools
-Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Microsoft.EntityFrameworkCore.Tools -version 2.1.0
 Add-Migration Migrations
 update-database
 

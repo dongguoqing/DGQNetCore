@@ -33,5 +33,11 @@ namespace DGQ.Service
             _userRepository.Insert(userInfo);
             _userRepository.Save();
         }
+
+        public void EditUser(UserInfo userInfo)
+        {
+            _userRepository.Update(userInfo);
+            _userRepository.Save();
+        }
     }
 }

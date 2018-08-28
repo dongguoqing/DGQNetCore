@@ -10,8 +10,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(ApiDBContent))]
-    [Migration("20180810025224_UserInfoAdd_Sex")]
-    partial class UserInfoAdd_Sex
+    [Migration("20180828100229_UpdateModule")]
+    partial class UpdateModule
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,60 @@ namespace Model.Migrations
                 .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Model.Module", b =>
+                {
+                    b.Property<string>("F_Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool?>("F_AllowDelete");
+
+                    b.Property<bool?>("F_AllowEdit");
+
+                    b.Property<DateTime?>("F_CreatorTime");
+
+                    b.Property<string>("F_CreatorUserId");
+
+                    b.Property<bool?>("F_DeleteMark");
+
+                    b.Property<DateTime?>("F_DeleteTime");
+
+                    b.Property<string>("F_DeleteUserId");
+
+                    b.Property<string>("F_Description");
+
+                    b.Property<string>("F_EnCode");
+
+                    b.Property<bool?>("F_EnabledMark");
+
+                    b.Property<string>("F_FullName");
+
+                    b.Property<string>("F_Icon");
+
+                    b.Property<bool?>("F_IsExpand");
+
+                    b.Property<bool?>("F_IsMenu");
+
+                    b.Property<bool?>("F_IsPublic");
+
+                    b.Property<DateTime?>("F_LastModifyTime");
+
+                    b.Property<string>("F_LastModifyUserId");
+
+                    b.Property<int?>("F_Layers");
+
+                    b.Property<string>("F_ParentId");
+
+                    b.Property<int?>("F_SortCode");
+
+                    b.Property<string>("F_Target");
+
+                    b.Property<string>("F_UrlAddress");
+
+                    b.HasKey("F_Id");
+
+                    b.ToTable("Module");
+                });
 
             modelBuilder.Entity("Model.UserInfo", b =>
                 {
