@@ -17,7 +17,7 @@ namespace DGQ.Service
             _userRepository = userRepository;
         }
 
-        public async Task<PaginatedList<UserViewModel>> GetUserInfoAsync(int pageIndex, int pageSize)
+        public async Task<PaginatedList<UserInfo>> GetUserInfoAsync(int pageIndex, int pageSize)
         {
             var pagedList = await _userRepository.GetUserInfoAsync(pageIndex,pageSize);
             if (pageSize * (pageIndex - 1) > pagedList.Count)

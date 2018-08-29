@@ -7,7 +7,7 @@ namespace DGQ.Service.Contract
 {
     public interface IUserService
     {
-        Task<PaginatedList<UserViewModel>> GetUserInfoAsync(int pageIndex, int pageSize);
+        Task<PaginatedList<UserInfo>> GetUserInfoAsync(int pageIndex, int pageSize);
         void AddUser(UserInfo userInfo);
         void EditUser(UserInfo userInfo);
     }

@@ -18,26 +18,14 @@ namespace DGQ.Repository.EF
         {
         }
 
-        public async Task<PaginatedList<UserViewModel>> GetUserInfoAsync(int pageIndex, int pageSize)
+        public async Task<PaginatedList<UserInfo>> GetUserInfoAsync(int pageIndex, int pageSize)
         {
-            var listUser = (from a in Context.Users
-                            join b in Context.UserRole on a.Uid equals b.Id.ToString()
-                            select new UserViewModel
-                            {
-                                Id = a.Id,
-                                Email = a.Email,
-                                Name = a.Name,
-                                UserName = a.UserName,
-                                Uid = a.Uid,
-                                Enable = a.Enable,
-                                Sex = a.Sex,
-                                RoleName = b.RoleName,
-                            });
+            var listUser = from a in Context.Users select a;
             int count = await listUser.CountAsync();
-            List<UserViewModel> list = null;
+            List<UserInfo> list = null;
             if (count > 0)
-                list = await listUser.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new PaginatedList<UserViewModel>(pageIndex, pageSize, count, list);
+                list = await listUser.OrderBy(a => a.F_Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PaginatedList<UserInfo>(pageIndex, pageSize, count, list);
         }
     }
 }

@@ -8,6 +8,6 @@ namespace DGQ.Repository.Contract
 {
     public interface IUserRepository:IRepository<UserInfo>
     {
-        Task<PaginatedList<UserViewModel>> GetUserInfoAsync( int pageIndex, int pageSize);
+        Task<PaginatedList<UserInfo>> GetUserInfoAsync( int pageIndex, int pageSize);
     }
 }

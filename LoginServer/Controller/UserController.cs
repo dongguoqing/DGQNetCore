@@ -34,7 +34,7 @@ namespace LoginServer.Controller
         [Route("api/User/GetUserList")]
         public async Task<ActionResult> GetUserList(int pageIndex, int pageSize)
         {
-            PaginatedList<UserViewModel> pagedList = await _userService.GetUserInfoAsync(pageIndex, pageSize);
+            PaginatedList<UserInfo> pagedList = await _userService.GetUserInfoAsync(pageIndex, pageSize);
             Console.WriteLine(pagedList.Items.Count);
             Console.WriteLine(pagedList.Count);
             //写入日志
@@ -47,17 +47,17 @@ namespace LoginServer.Controller
         [Route("api/User/AddUser")]
         public async Task<ActionResult> AddUser(UserViewModel userViewModel)
         {
-            UserInfo userInfo = new UserInfo()
-            {
-                Email = userViewModel.Email,
-                Enable = userViewModel.Enable,
-                Name = userViewModel.Name,
-                Sex = userViewModel.Sex,
-                PassWord = "123456",
-                Uid = userViewModel.RoleId,
-                UserName = userViewModel.UserName
-            };
-            _userService.AddUser(userInfo);
+            //UserInfo userInfo = new UserInfo()
+            //{
+            //    Email = userViewModel.Email,
+            //    Enable = userViewModel.Enable,
+            //    Name = userViewModel.Name,
+            //    Sex = userViewModel.Sex,
+            //    PassWord = "123456",
+            //    Uid = userViewModel.RoleId,
+            //    UserName = userViewModel.UserName
+            //};
+            //_userService.AddUser(userInfo);
             return Content("ok", "application/text");
         }
 
@@ -66,9 +66,9 @@ namespace LoginServer.Controller
         public async Task<ActionResult> DelUser(int Id)
         {
             //实例化一个实体 将主键设置为
-            var userInfo = new UserInfo() { Id = Id };
-            _context.Set<UserInfo>().Remove(userInfo);
-            _context.SaveChanges();
+            //var userInfo = new UserInfo() { Id = Id };
+            //_context.Set<UserInfo>().Remove(userInfo);
+            //_context.SaveChanges();
             return Content("ok", "application/text");
         }
 
@@ -76,16 +76,16 @@ namespace LoginServer.Controller
         [Route("api/User/EditUser")]
         public async Task<ActionResult> EditUser(UserViewModel userViewModel)
         {
-            UserInfo userInfo = new UserInfo()
-            {
-                Email = userViewModel.Email,
-                Enable = userViewModel.Enable,
-                Name = userViewModel.Name,
-                Sex = userViewModel.Sex,
-                Uid = userViewModel.RoleId,
-                UserName = userViewModel.UserName
-            };
-            _userService.EditUser(userInfo);
+            //UserInfo userInfo = new UserInfo()
+            //{
+            //    Email = userViewModel.Email,
+            //    Enable = userViewModel.Enable,
+            //    Name = userViewModel.Name,
+            //    Sex = userViewModel.Sex,
+            //    Uid = userViewModel.RoleId,
+            //    UserName = userViewModel.UserName
+            //};
+            //_userService.EditUser(userInfo);
             return Content("ok", "application/text");
         }
 
@@ -93,7 +93,7 @@ namespace LoginServer.Controller
         [Route("api/Login/GetUserById")]
         public async Task<ActionResult> GetUserById(int id)
         {
-            var user = _context.Users.Where(a => a.Id == id).FirstOrDefault();
+            var user = _context.Users.Where(a => a.F_Id == id.ToString()).FirstOrDefault();
             return Content(JsonConvert.SerializeObject(user), "application/text");
         }
     }
