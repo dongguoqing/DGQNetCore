@@ -1,9 +1,11 @@
 ﻿
+using DGQ.Service.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Model;
+using Model.ViewModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -20,13 +22,14 @@ namespace LoginServer.Controller
     {
         private ApiDBContent _context;
         private IMemoryCache _cache;
-        private readonly ILogger<LoginController> nLogger2;
+       // private readonly ILogger<LoginController> nLogger2;
+        private readonly IUserService _userService;
 
-        public LoginController(ApiDBContent context, IMemoryCache cache, ILogger<LoginController> logger2)
+        public LoginController(ApiDBContent context,IMemoryCache cache)
         {
-            nLogger2 = logger2;
-            this._context = context;
+           // nLogger2 = logger2;
             this._cache = cache;
+            this._context = context;
         }
 
         [HttpPost(nameof(RequestToken))]
@@ -62,8 +65,26 @@ namespace LoginServer.Controller
         [Route("api/Login/GetInfo")]
         public async Task<ActionResult> GetInfo(string token)
         {
-            var listUser = _context.Users.Include("Role").FirstOrDefault();
-            return Content(JObject.FromObject(listUser).ToString(), "application/text");
+            var user = from a in _context.Users
+                       join b in _context.UserRole on
+                       a.F_RoleId equals b.F_Id
+                       
+                       select new UserRoleViewModel()
+                       {
+                           F_FullName = b.F_FullName,
+                           F_Gender = a.F_Gender,
+                           F_MobilePhone = a.F_MobilePhone,
+                           F_NickName = a.F_NickName,
+                           F_RealName = a.F_RealName,
+                           F_RoleId = b.F_Id,
+                           Id = a.F_Id
+                       };
+            var result = user.LastOrDefault();
+            Console.WriteLine(result.F_FullName);
+            Console.WriteLine(JsonConvert.SerializeObject(result));
+            //var listUser = _context.Users.Include("Role").FirstOrDefault();
+            //return Content(JObject.FromObject(listUser).ToString(), "application/text");
+            return Content(JObject.FromObject(result).ToString(), "application/text");
         }
 
        
@@ -72,8 +93,9 @@ namespace LoginServer.Controller
         [Route("api/Login/GetRoleList")]
         public async Task<ActionResult> GetRoleList()
         {
-            var listRole = _context.UserRole.ToList();
-            return Content(JsonConvert.SerializeObject(listRole), "application/text");
+            //var listRole = _context.UserRole.ToList();
+            //return Content(JsonConvert.SerializeObject(listRole), "application/text");
+            return Content("", "application/text");
         }
 
        

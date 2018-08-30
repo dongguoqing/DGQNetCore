@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DGQ.Code\DGQ.Code.csproj" />
     <ProjectReference Include="..\DGQ.Infrustructure.Contract\DGQ.Infrustructure.Contract.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>

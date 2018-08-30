@@ -34,7 +34,7 @@ namespace LoginServer.Exceptions
                 {
                     StatusCode = 500
                 };
-                _logger.LogError(null, exception, "服务器处理出错", null);
+                _logger.LogError(exception.Message, exception, "服务器处理出错", null);
             }
 
             context.Result = result;

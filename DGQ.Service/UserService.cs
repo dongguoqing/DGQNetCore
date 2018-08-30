@@ -28,6 +28,11 @@ namespace DGQ.Service
             return pagedList;
         }
 
+        public async Task<UserRoleViewModel> GetUserRoleAsync(string f_id)
+        {
+            return await _userRepository.GetUserRoleAsync(f_id);
+        }
+
         public void AddUser(UserInfo userInfo)
         {
             _userRepository.Insert(userInfo);

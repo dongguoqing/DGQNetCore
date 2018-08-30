@@ -50,14 +50,14 @@ namespace LoginServer
             //获取配置文件中的连接字符串
             var sqlConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApiDBContent>(option => option.UseSqlServer(sqlConnection));
-            
+
             services.AddScoped<DbContext>(provider => provider.GetService<ApiDBContent>());
             services.AddCors();
             services.AddMvc(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)))
                .AddJsonOptions(options => options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss")
-               .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+               .SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
-            return  RegisterAutofac(services);
+            return RegisterAutofac(services);
         }
 
         private IServiceProvider RegisterAutofac(IServiceCollection services)
