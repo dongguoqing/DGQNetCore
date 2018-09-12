@@ -9,6 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Configuration" Version="4.1.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="JWT" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
@@ -18,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DGQ.Code\DGQ.Code.csproj" />
+    <ProjectReference Include="..\DGQ.Repository.EF\DGQ.Repository.EF.csproj" />
+    <ProjectReference Include="..\DGQ.Service\DGQ.Service.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
 

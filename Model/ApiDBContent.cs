@@ -18,6 +18,8 @@ namespace Model
         public DbSet<Module> Module { get; set; }
         public DbSet<RoleAuthorize> RoleAuthorize { get; set; }
         public DbSet<ModuleButton> ModuleButton { get; set; }
+        public DbSet<Organize> Organize { get; set; }
+        public DbSet<UserLogOn> UserLogOn { get; set; }
     }
 
     public class ApplicationContextDbFactory : IDesignTimeDbContextFactory<ApiDBContent>

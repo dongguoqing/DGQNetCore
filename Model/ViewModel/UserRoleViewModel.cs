@@ -15,5 +15,8 @@ namespace Model.ViewModel
         public string F_FullName { get; set; }
         public string F_RoleId { get; set; }
         public string F_Account { get; set; }
+        public string F_OrganizeName { get; set; }
+        public string F_UserPassword { get; set; }
+        public string F_Email { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using DGQ.Code;
 using DGQ.Service.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Model;
 using Model.ViewModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +24,13 @@ namespace LoginServer.Controller
     {
         private ApiDBContent _context;
         private IMemoryCache _cache;
-       // private readonly ILogger<LoginController> nLogger2;
+        // private readonly ILogger<LoginController> nLogger2;
         private readonly IUserService _userService;
 
-        public LoginController(ApiDBContent context,IMemoryCache cache)
+        public LoginController(ApiDBContent context, IMemoryCache cache, IUserService userService)
         {
-           // nLogger2 = logger2;
+            _userService = userService;
+            // nLogger2 = logger2;
             this._cache = cache;
             this._context = context;
         }
@@ -44,8 +47,10 @@ namespace LoginServer.Controller
             dict["password"] = model.PassWord;
             //外键关联查询 通过外键的名称进行关联
             //var listUser = _context.Users.Include("Role").ToList().FirstOrDefault();
-
-
+            //根据用户名去查询相应的用户信息 
+            Console.WriteLine(model.Email);
+            var user = await _userService.GetUserByUserName(model.Email);
+            Console.WriteLine(user);
             //由登录服务器向IdentityServer发请求获取Token
             using (HttpClient http = new HttpClient())
             using (var content = new FormUrlEncodedContent(dict))
@@ -56,6 +61,7 @@ namespace LoginServer.Controller
                 _cache.Set("access_token", result.Access_token);
                 Console.WriteLine(_cache.Get("access_token"));
                 result.Email = model.Email;
+                result.Uid = user.Id;
                 string data = JObject.FromObject(result).ToString();
                 return Content(data, "application/json");
             }
@@ -63,31 +69,14 @@ namespace LoginServer.Controller
 
         [HttpGet(nameof(GetInfo))]
         [Route("api/Login/GetInfo")]
-        public async Task<ActionResult> GetInfo(string token)
+        public async Task<ActionResult> GetInfo(string uid)
         {
-            var user = from a in _context.Users
-                       join b in _context.UserRole on
-                       a.F_RoleId equals b.F_Id
-                       
-                       select new UserRoleViewModel()
-                       {
-                           F_FullName = b.F_FullName,
-                           F_Gender = a.F_Gender,
-                           F_MobilePhone = a.F_MobilePhone,
-                           F_NickName = a.F_NickName,
-                           F_RealName = a.F_RealName,
-                           F_RoleId = b.F_Id,
-                           Id = a.F_Id
-                       };
-            var result = user.LastOrDefault();
-            Console.WriteLine(result.F_FullName);
-            Console.WriteLine(JsonConvert.SerializeObject(result));
-            //var listUser = _context.Users.Include("Role").FirstOrDefault();
-            //return Content(JObject.FromObject(listUser).ToString(), "application/text");
-            return Content(JObject.FromObject(result).ToString(), "application/text");
+            var user =await _userService.GetUserRoleAsync(uid);
+            Console.WriteLine(JsonConvert.SerializeObject(user));
+            return Content(JObject.FromObject(user).ToString(), "application/text");
         }
 
-       
+
 
         [HttpGet(nameof(GetRoleList))]
         [Route("api/Login/GetRoleList")]
@@ -98,9 +87,9 @@ namespace LoginServer.Controller
             return Content("", "application/text");
         }
 
-       
 
-       
+
+
 
 
         //[HttpPost(nameof(IsLogin))]

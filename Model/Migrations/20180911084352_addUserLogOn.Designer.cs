@@ -10,8 +10,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(ApiDBContent))]
-    [Migration("20180829032413_8291124Migration")]
-    partial class _8291124Migration
+    [Migration("20180911084352_addUserLogOn")]
+    partial class addUserLogOn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -128,7 +128,69 @@ namespace Model.Migrations
 
                     b.HasKey("F_Id");
 
-                    b.ToTable("ModuleButtong");
+                    b.ToTable("ModuleButton");
+                });
+
+            modelBuilder.Entity("Model.Organize", b =>
+                {
+                    b.Property<string>("F_Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("F_Address");
+
+                    b.Property<bool?>("F_AllowDelete");
+
+                    b.Property<bool?>("F_AllowEdit");
+
+                    b.Property<string>("F_AreaId");
+
+                    b.Property<string>("F_CategoryId");
+
+                    b.Property<DateTime?>("F_CreatorTime");
+
+                    b.Property<string>("F_CreatorUserId");
+
+                    b.Property<bool?>("F_DeleteMark");
+
+                    b.Property<DateTime?>("F_DeleteTime");
+
+                    b.Property<string>("F_DeleteUserId");
+
+                    b.Property<string>("F_Description");
+
+                    b.Property<string>("F_Email");
+
+                    b.Property<string>("F_EnCode");
+
+                    b.Property<bool?>("F_EnabledMark");
+
+                    b.Property<string>("F_Fax");
+
+                    b.Property<string>("F_FullName");
+
+                    b.Property<DateTime?>("F_LastModifyTime");
+
+                    b.Property<string>("F_LastModifyUserId");
+
+                    b.Property<int?>("F_Layers");
+
+                    b.Property<string>("F_ManagerId");
+
+                    b.Property<string>("F_MobilePhone");
+
+                    b.Property<string>("F_ParentId");
+
+                    b.Property<string>("F_ShortName");
+
+                    b.Property<int?>("F_SortCode");
+
+                    b.Property<string>("F_TelePhone");
+
+                    b.Property<string>("F_WeChat");
+
+                    b.HasKey("F_Id");
+
+                    b.ToTable("Organize");
                 });
 
             modelBuilder.Entity("Model.RoleAuthorize", b =>

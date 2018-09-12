@@ -20,7 +20,9 @@ namespace DGQ.Repository.EF
 
         public async Task<PaginatedList<UserInfo>> GetUserInfoAsync(int pageIndex, int pageSize)
         {
-            var listUser = from a in Context.Users select a;
+            var listUser = from a in Context.Users
+
+                           select a;
             int count = await listUser.CountAsync();
             List<UserInfo> list = null;
             if (count > 0)
@@ -42,10 +44,30 @@ namespace DGQ.Repository.EF
                           F_NickName = a.F_NickName,
                           F_RealName = a.F_RealName,
                           F_RoleId = b.F_Id,
-                          Id = a.F_Id
+                          Id = a.F_Id,
                        };
             return await user.FirstOrDefaultAsync();
 
+        }
+
+        public async Task<UserRoleViewModel> GetUserByUserName(string username)
+        {
+            var user = from a in Context.Users
+                       join b in Context.UserLogOn
+                       on a.F_Id equals b.F_UserId
+                       where a.F_Account == username select new UserRoleViewModel()
+                       {
+                           F_Gender = a.F_Gender,
+                           F_MobilePhone = a.F_MobilePhone,
+                           F_NickName = a.F_NickName,
+                           F_RealName = a.F_RealName,
+                           F_RoleId = b.F_Id,
+                           Id = a.F_Id,
+                           F_Account = a.F_Account,
+                           F_UserPassword = b.F_UserPassword,
+                           F_Email = a.F_Email
+                       };
+            return await user.FirstOrDefaultAsync();
         }
     }
 }

@@ -10,8 +10,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(ApiDBContent))]
-    [Migration("20180829031341_8291113Migration")]
-    partial class _8291113Migration
+    [Migration("20180830092755_Migrations830")]
+    partial class Migrations830
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,124 @@ namespace Model.Migrations
                     b.HasKey("F_Id");
 
                     b.ToTable("Module");
+                });
+
+            modelBuilder.Entity("Model.ModuleButton", b =>
+                {
+                    b.Property<string>("F_Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool?>("F_AllowDelete");
+
+                    b.Property<bool?>("F_AllowEdit");
+
+                    b.Property<DateTime?>("F_CreatorTime");
+
+                    b.Property<string>("F_CreatorUserId");
+
+                    b.Property<bool?>("F_DeleteMark");
+
+                    b.Property<DateTime?>("F_DeleteTime");
+
+                    b.Property<string>("F_DeleteUserId");
+
+                    b.Property<string>("F_Description");
+
+                    b.Property<string>("F_EnCode");
+
+                    b.Property<bool?>("F_EnabledMark");
+
+                    b.Property<string>("F_FullName");
+
+                    b.Property<string>("F_Icon");
+
+                    b.Property<bool?>("F_IsPublic");
+
+                    b.Property<string>("F_JsEvent");
+
+                    b.Property<DateTime?>("F_LastModifyTime");
+
+                    b.Property<string>("F_LastModifyUserId");
+
+                    b.Property<int?>("F_Layers");
+
+                    b.Property<int?>("F_Location");
+
+                    b.Property<string>("F_ModuleId");
+
+                    b.Property<string>("F_ParentId");
+
+                    b.Property<int?>("F_SortCode");
+
+                    b.Property<bool?>("F_Split");
+
+                    b.Property<string>("F_UrlAddress");
+
+                    b.HasKey("F_Id");
+
+                    b.ToTable("ModuleButton");
+                });
+
+            modelBuilder.Entity("Model.Organize", b =>
+                {
+                    b.Property<string>("F_Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("F_Address");
+
+                    b.Property<bool?>("F_AllowDelete");
+
+                    b.Property<bool?>("F_AllowEdit");
+
+                    b.Property<string>("F_AreaId");
+
+                    b.Property<string>("F_CategoryId");
+
+                    b.Property<DateTime?>("F_CreatorTime");
+
+                    b.Property<string>("F_CreatorUserId");
+
+                    b.Property<bool?>("F_DeleteMark");
+
+                    b.Property<DateTime?>("F_DeleteTime");
+
+                    b.Property<string>("F_DeleteUserId");
+
+                    b.Property<string>("F_Description");
+
+                    b.Property<string>("F_Email");
+
+                    b.Property<string>("F_EnCode");
+
+                    b.Property<bool?>("F_EnabledMark");
+
+                    b.Property<string>("F_Fax");
+
+                    b.Property<string>("F_FullName");
+
+                    b.Property<DateTime?>("F_LastModifyTime");
+
+                    b.Property<string>("F_LastModifyUserId");
+
+                    b.Property<int?>("F_Layers");
+
+                    b.Property<string>("F_ManagerId");
+
+                    b.Property<string>("F_MobilePhone");
+
+                    b.Property<string>("F_ParentId");
+
+                    b.Property<string>("F_ShortName");
+
+                    b.Property<int?>("F_SortCode");
+
+                    b.Property<string>("F_TelePhone");
+
+                    b.Property<string>("F_WeChat");
+
+                    b.HasKey("F_Id");
+
+                    b.ToTable("Organize");
                 });
 
             modelBuilder.Entity("Model.RoleAuthorize", b =>
@@ -165,13 +283,44 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.UserRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("F_Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("RoleName");
+                    b.Property<bool?>("F_AllowDelete");
 
-                    b.HasKey("Id");
+                    b.Property<bool?>("F_AllowEdit");
+
+                    b.Property<int?>("F_Category");
+
+                    b.Property<DateTime?>("F_CreatorTime");
+
+                    b.Property<string>("F_CreatorUserId");
+
+                    b.Property<bool?>("F_DeleteMark");
+
+                    b.Property<DateTime?>("F_DeleteTime");
+
+                    b.Property<string>("F_DeleteUserId");
+
+                    b.Property<string>("F_Description");
+
+                    b.Property<string>("F_EnCode");
+
+                    b.Property<bool?>("F_EnabledMark");
+
+                    b.Property<string>("F_FullName");
+
+                    b.Property<DateTime?>("F_LastModifyTime");
+
+                    b.Property<string>("F_LastModifyUserId");
+
+                    b.Property<string>("F_OrganizeId");
+
+                    b.Property<int?>("F_SortCode");
+
+                    b.Property<string>("F_Type");
+
+                    b.HasKey("F_Id");
 
                     b.ToTable("UserRole");
                 });

@@ -10,5 +10,6 @@ namespace DGQ.Repository.Contract
     {
         Task<PaginatedList<UserInfo>> GetUserInfoAsync( int pageIndex, int pageSize);
         Task<UserRoleViewModel> GetUserRoleAsync(string f_id);
+        Task<UserRoleViewModel> GetUserByUserName(string username);
     }
 }

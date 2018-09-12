@@ -1,0 +1,10 @@
+﻿{
+  "modules": [
+    {
+      "type": "DGQ.Repository.EF.RepositoryModule, DGQ.Repository.EF"
+    },
+    {
+      "type": "DGQ.Service.ServiceModule, DGQ.Service"
+    }
+  ]
+}

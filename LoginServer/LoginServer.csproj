@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DGQ.Code\DGQ.Code.csproj" />
     <ProjectReference Include="..\DGQ.Repository.EF\DGQ.Repository.EF.csproj" />
     <ProjectReference Include="..\DGQ.Service\DGQ.Service.csproj" />
   </ItemGroup>
