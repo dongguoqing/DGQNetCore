@@ -9,8 +9,9 @@ namespace DGQ.Service.Contract
     {
         Task<PaginatedList<UserInfo>> GetUserInfoAsync(int pageIndex, int pageSize);
         void AddUser(UserInfo userInfo);
-        void EditUser(UserInfo userInfo);
+        void EditUser(UserInfo userInfo,string userId);
         Task<UserRoleViewModel> GetUserRoleAsync(string f_id);
         Task<UserRoleViewModel> GetUserByUserName(string username);
+        UserInfo GetByID(object id);
     }
 }

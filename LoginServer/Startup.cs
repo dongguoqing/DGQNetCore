@@ -46,7 +46,7 @@ namespace LoginServer
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //获取配置文件中的连接字符串
             var sqlConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApiDBContent>(option => option.UseSqlServer(sqlConnection));

@@ -1,4 +1,6 @@
-﻿using DGQ.Service.Contract;
+﻿using DGQ.Code.Operator;
+using DGQ.Service.Contract;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -21,13 +23,15 @@ namespace LoginServer.Controller
         private IMemoryCache _cache;
         private readonly ILogger<UserController> nLogger2;
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _accessor;
 
-        public UserController(ApiDBContent context, IMemoryCache cache, ILogger<UserController> logger2, IUserService userService)
+        public UserController(ApiDBContent context, IMemoryCache cache, ILogger<UserController> logger2, IUserService userService,IHttpContextAccessor accessor)
         {
             nLogger2 = logger2;
             this._context = context;
             this._userService = userService;
             this._cache = cache;
+            _accessor = accessor;
         }
 
         [HttpGet(nameof(GetUserList))]
@@ -72,28 +76,20 @@ namespace LoginServer.Controller
             return Content("ok", "application/text");
         }
 
-        [HttpGet(nameof(EditUser))]
+        [HttpPost(nameof(EditUser))]
         [Route("api/User/EditUser")]
-        public async Task<ActionResult> EditUser(UserViewModel userViewModel)
+        public async Task<ActionResult> EditUser(UserInfo userInfo)
         {
-            //UserInfo userInfo = new UserInfo()
-            //{
-            //    Email = userViewModel.Email,
-            //    Enable = userViewModel.Enable,
-            //    Name = userViewModel.Name,
-            //    Sex = userViewModel.Sex,
-            //    Uid = userViewModel.RoleId,
-            //    UserName = userViewModel.UserName
-            //};
-            //_userService.EditUser(userInfo);
+            var userId = _accessor.HttpContext.Request.Cookies["uid"];
+             _userService.EditUser(userInfo, userId);
             return Content("ok", "application/text");
         }
 
         [HttpGet(nameof(GetUserById))]
         [Route("api/Login/GetUserById")]
-        public async Task<ActionResult> GetUserById(int id)
+        public async Task<ActionResult> GetUserById(string id)
         {
-            var user = _context.Users.Where(a => a.F_Id == id.ToString()).FirstOrDefault();
+            var user = await _userService.GetUserRoleAsync(id);
             return Content(JsonConvert.SerializeObject(user), "application/text");
         }
     }

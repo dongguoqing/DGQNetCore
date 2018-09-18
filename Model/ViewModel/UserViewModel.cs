@@ -15,5 +15,9 @@ namespace Model.ViewModel
         public bool? Enable { get; set; }
         public string RoleName { get; set; }
         public string RoleId { get; set; }
+        public string Account { get; set; }
+        public string CompanyId { get; set; }
+        public string DeptId { get; set; }
+        public string RealName { get; set; }
     }
 }

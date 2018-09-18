@@ -19,10 +19,10 @@ namespace DGQ.Service
 
         public async Task<PaginatedList<UserInfo>> GetUserInfoAsync(int pageIndex, int pageSize)
         {
-            var pagedList = await _userRepository.GetUserInfoAsync(pageIndex,pageSize);
+            var pagedList = await _userRepository.GetUserInfoAsync(pageIndex, pageSize);
             if (pageSize * (pageIndex - 1) > pagedList.Count)
             {
-                pageIndex =(int)Math.Ceiling(((double)pagedList.Count) / pageSize);
+                pageIndex = (int)Math.Ceiling(((double)pagedList.Count) / pageSize);
                 pagedList = await _userRepository.GetUserInfoAsync(pageIndex, pageSize);
             }
             return pagedList;
@@ -39,8 +39,9 @@ namespace DGQ.Service
             _userRepository.Save();
         }
 
-        public void EditUser(UserInfo userInfo)
+        public void EditUser(UserInfo userInfo, string userId)
         {
+            userInfo.Modify(userId);
             _userRepository.Update(userInfo);
             _userRepository.Save();
         }

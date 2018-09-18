@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Model.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Model
 {
-    public class UserInfo
+    public class UserInfo:IEntity<UserInfo>,ICreationAudited,IModificationAudited
     {
         [Key]
         public string F_Id { get; set; }

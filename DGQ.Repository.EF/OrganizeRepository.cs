@@ -23,7 +23,7 @@ namespace DGQ.Repository.EF
         public async Task<List<Organize>> GetOrganizeList()
         {
             var organizeList = from a in Context.Organize
-                               where a.F_Layers == 1
+                               where a.F_Layers == 2
                                select a;
             return await organizeList.ToListAsync();
         }
@@ -35,7 +35,7 @@ namespace DGQ.Repository.EF
         public async Task<List<Organize>> GetCompanyList()
         {
             var companyList = from a in Context.Organize
-                              where a.F_Layers == 2
+                              where a.F_Layers == 1
                               select a;
             return await companyList.ToListAsync();
         }

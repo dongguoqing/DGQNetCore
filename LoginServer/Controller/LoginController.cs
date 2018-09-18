@@ -26,10 +26,12 @@ namespace LoginServer.Controller
         private IMemoryCache _cache;
         // private readonly ILogger<LoginController> nLogger2;
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
 
-        public LoginController(ApiDBContent context, IMemoryCache cache, IUserService userService)
+        public LoginController(ApiDBContent context, IMemoryCache cache, IUserService userService, IRoleService roleService)
         {
             _userService = userService;
+            _roleService = roleService;
             // nLogger2 = logger2;
             this._cache = cache;
             this._context = context;
@@ -71,7 +73,7 @@ namespace LoginServer.Controller
         [Route("api/Login/GetInfo")]
         public async Task<ActionResult> GetInfo(string uid)
         {
-            var user =await _userService.GetUserRoleAsync(uid);
+            var user = await _userService.GetUserRoleAsync(uid);
             Console.WriteLine(JsonConvert.SerializeObject(user));
             return Content(JObject.FromObject(user).ToString(), "application/text");
         }
@@ -82,9 +84,8 @@ namespace LoginServer.Controller
         [Route("api/Login/GetRoleList")]
         public async Task<ActionResult> GetRoleList()
         {
-            //var listRole = _context.UserRole.ToList();
-            //return Content(JsonConvert.SerializeObject(listRole), "application/text");
-            return Content("", "application/text");
+            var listRole = await _roleService.GetRoleList();
+            return Content(JsonConvert.SerializeObject(listRole.Where(a=>a.F_Type!=null)), "application/text");
         }
 
 
