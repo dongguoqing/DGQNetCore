@@ -29,21 +29,28 @@ namespace ID4.IdServer
             var user = await _userService.GetUserByUserName(context.UserName);
             if (user != null)
             {
-                //根据context.UserName和context.Password与数据库的数据做校验，判断是否合法
-                if (context.UserName == user.F_Account && Encrypt.EncryptText(context.Password, "dgq") == user.F_UserPassword)
+                if (user.F_EnabledMark == true)
                 {
-                    context.Result = new GrantValidationResult(
-                       subject: context.UserName,
-                       authenticationMethod: "custom",
-                       claims: new Claim[] { new Claim("Name", context.UserName), new Claim("UserId", user.Id), new Claim("RealName", user.F_RealName), new Claim("Email", user.F_Email) }
-                    );
+                    //根据context.UserName和context.Password与数据库的数据做校验，判断是否合法
+                    Console.WriteLine(Encrypt.EncryptText(context.Password, "dgq"));
+                    Console.WriteLine(user.F_UserPassword);
+                    if (Encrypt.EncryptText(context.Password, "dgq") == user.F_UserPassword)
+                    {
+                        context.Result = new GrantValidationResult(
+                           subject: context.UserName,
+                           authenticationMethod: "custom",
+                           claims: new Claim[] { new Claim("Name", context.UserName), new Claim("UserId", user.Id), new Claim("RealName", user.F_RealName), new Claim("Email", user.F_Email) }
+                        );
+                    }
+                    else
+                        context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "密码不正确，请重新输入！");
                 }
                 //  }
                 else
-                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid custom credential");
+                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "当前账户已经被锁定，请联系管理员！");
             }
             else
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "当前用户不存在！");
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "当前账户不存在！");
         }
 
         //可以根据自己的需要设置相应的Claim

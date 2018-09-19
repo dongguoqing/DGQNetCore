@@ -66,6 +66,8 @@ namespace DGQ.Repository.EF
                        join b in Context.UserLogOn
                        on a.F_Id equals b.F_UserId
                        where a.F_Account == username
+                       join c in Context.UserRole
+                       on a.F_RoleId equals c.F_Id
                        select new UserRoleViewModel()
                        {
                            F_Gender = a.F_Gender,
@@ -76,9 +78,13 @@ namespace DGQ.Repository.EF
                            Id = a.F_Id,
                            F_Account = a.F_Account,
                            F_UserPassword = b.F_UserPassword,
-                           F_Email = a.F_Email
+                           F_Email = a.F_Email,
+                           F_RoleName = c.F_FullName,
+                           F_EnabledMark = a.F_EnabledMark
                        };
             return await user.FirstOrDefaultAsync();
         }
+
+
     }
 }

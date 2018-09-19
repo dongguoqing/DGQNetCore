@@ -33,10 +33,12 @@ namespace DGQ.Service
             return await _userRepository.GetUserRoleAsync(f_id);
         }
 
-        public void AddUser(UserInfo userInfo)
+        public UserInfo AddUser(UserInfo userInfo,string userId)
         {
-            _userRepository.Insert(userInfo);
+            userInfo.Create(userId);
+            var entity = _userRepository.Insert(userInfo);
             _userRepository.Save();
+            return entity;
         }
 
         public void EditUser(UserInfo userInfo, string userId)

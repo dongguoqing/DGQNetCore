@@ -52,20 +52,33 @@ namespace LoginServer.Controller
             //根据用户名去查询相应的用户信息 
             Console.WriteLine(model.Email);
             var user = await _userService.GetUserByUserName(model.Email);
-            Console.WriteLine(user);
-            //由登录服务器向IdentityServer发请求获取Token
-            using (HttpClient http = new HttpClient())
-            using (var content = new FormUrlEncodedContent(dict))
+            if (user != null)
             {
-                var msg = await http.PostAsync("http://192.168.1.47:9500/connect/token", content);
-                UserResult result = await msg.Content.ReadAsAsync<UserResult>();
-                //将获取的Access_Token存入缓存中 以便在后续的接口请求中判断
-                _cache.Set("access_token", result.Access_token);
-                Console.WriteLine(_cache.Get("access_token"));
-                result.Email = model.Email;
-                result.Uid = user.Id;
-                string data = JObject.FromObject(result).ToString();
-                return Content(data, "application/json");
+                if (user.F_EnabledMark == true)
+                {
+                    //由登录服务器向IdentityServer发请求获取Token
+                    using (HttpClient http = new HttpClient())
+                    using (var content = new FormUrlEncodedContent(dict))
+                    {
+                        var msg = await http.PostAsync("http://192.168.1.47:9500/connect/token", content);
+                        UserResult result = await msg.Content.ReadAsAsync<UserResult>();
+                        //将获取的Access_Token存入缓存中 以便在后续的接口请求中判断
+                        _cache.Set("access_token", result.Access_token);
+                        Console.WriteLine(_cache.Get("access_token"));
+                        result.Email = model.Email;
+                        result.Uid = user.Id;
+                        string data = JObject.FromObject(result).ToString();
+                        return Content(data, "application/json");
+                    }
+                }
+                else
+                {
+                    return new ContentResult() { StatusCode = 200, ContentType = "application/json", Content = "账户被系统锁定，请联系管理员！" };
+                }
+            }
+            else
+            {
+                return new ContentResult() { Content = "账户不存在，请重新输入！", ContentType = "application/json", StatusCode = 200 };
             }
         }
 
@@ -85,7 +98,7 @@ namespace LoginServer.Controller
         public async Task<ActionResult> GetRoleList()
         {
             var listRole = await _roleService.GetRoleList();
-            return Content(JsonConvert.SerializeObject(listRole.Where(a=>a.F_Type!=null)), "application/text");
+            return Content(JsonConvert.SerializeObject(listRole.Where(a => a.F_Type != null)), "application/text");
         }
 
 

@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Model;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DGQ.Infrustructure.EF
 {
@@ -55,9 +56,10 @@ namespace DGQ.Infrustructure.EF
             return DbSet.Find(id);
         }
 
-        public virtual void Insert(TEntity entity)
+        public virtual TEntity Insert(TEntity entity)
         {
-            DbSet.Add(entity);
+            TEntity addEntity = DbSet.Add(entity).Entity;
+            return addEntity;
         }
 
         public virtual void Delete(object id)
@@ -80,7 +82,7 @@ namespace DGQ.Infrustructure.EF
             DbSet.Attach(entityToUpdate);
             //获取当前的所有的属性 判断属性值是不是 null 如果是null 那么就不进行更新改字段
             PropertyInfo[] properties = entityToUpdate.GetType().GetProperties();
-           // Context.Entry(entityToUpdate).State = EntityState.Modified;
+            // Context.Entry(entityToUpdate).State = EntityState.Modified;
             foreach (PropertyInfo prop in properties)
             {
                 if (prop.GetValue(entityToUpdate, null) != null)
