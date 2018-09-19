@@ -46,6 +46,11 @@ namespace DGQ.Service
             _userRepository.Save();
         }
 
+        public UserInfo GetByID(object id)
+        {
+            return _userRepository.GetByID(id);
+        }
+
         public async Task<UserRoleViewModel> GetUserByUserName(string username)
         {
             return await _userRepository.GetUserByUserName(username);

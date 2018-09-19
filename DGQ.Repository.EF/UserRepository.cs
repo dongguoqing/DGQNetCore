@@ -53,7 +53,8 @@ namespace DGQ.Repository.EF
                            F_UserPassword = Encrypt.DecryptText(c.F_UserPassword, "dgq"),
                            F_DutyId = a.F_DutyId,
                            F_DepartmentId = a.F_DepartmentId,
-                           F_OrganizeId = a.F_OrganizeId
+                           F_OrganizeId = a.F_OrganizeId,
+                           F_EnabledMark = a.F_EnabledMark
                        };
             return await user.FirstOrDefaultAsync();
 

@@ -21,6 +21,7 @@ namespace Model.ViewModel
         public string F_OrganizeId { get; set; }
         public string F_DepartmentId { get; set; }
         public string F_DutyId { get; set; }
+        public bool? F_EnabledMark { get; set; }
 
     }
 }

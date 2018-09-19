@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Model;
+using System.Reflection;
 
 namespace DGQ.Infrustructure.EF
 {
@@ -77,7 +78,20 @@ namespace DGQ.Infrustructure.EF
         public virtual void Update(TEntity entityToUpdate)
         {
             DbSet.Attach(entityToUpdate);
-            Context.Entry(entityToUpdate).State = EntityState.Modified;
+            //获取当前的所有的属性 判断属性值是不是 null 如果是null 那么就不进行更新改字段
+            PropertyInfo[] properties = entityToUpdate.GetType().GetProperties();
+           // Context.Entry(entityToUpdate).State = EntityState.Modified;
+            foreach (PropertyInfo prop in properties)
+            {
+                if (prop.GetValue(entityToUpdate, null) != null)
+                {
+                    if (prop.GetValue(entityToUpdate, null).ToString() == "&nbsp;")
+                        Context.Entry(entityToUpdate).Property(prop.Name).CurrentValue = null;
+                    if (!Context.Entry(entityToUpdate).Property(prop.Name).Metadata.IsPrimaryKey())//主键是不能进行修改的 否则无法进行更新
+                        Context.Entry(entityToUpdate).Property(prop.Name).IsModified = true;
+                }
+            }
+            //Context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
         public void Save()
