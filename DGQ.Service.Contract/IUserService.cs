@@ -12,6 +12,6 @@ namespace DGQ.Service.Contract
         void EditUser(UserInfo userInfo,string userId);
         Task<UserRoleViewModel> GetUserRoleAsync(string f_id);
         Task<UserRoleViewModel> GetUserByUserName(string username);
-        UserInfo GetByID(object id);
+        UserInfo GetByID(string id);
     }
 }

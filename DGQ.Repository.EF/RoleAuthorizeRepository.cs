@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using DGQ.Repository.Contract;
 
 namespace DGQ.Repository.EF
 {
-    public class RoleAuthorizeRepository:Repository<RoleAuthorize>
+    public class RoleAuthorizeRepository:Repository<RoleAuthorize>,IRoleAuthorizeRepository
     {
         public RoleAuthorizeRepository(ApiDBContent context) : base(context)
         {

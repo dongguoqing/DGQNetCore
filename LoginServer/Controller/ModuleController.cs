@@ -1,4 +1,5 @@
 ﻿using DGQ.Repository.Contract;
+using DGQ.Service.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -11,18 +12,18 @@ namespace LoginServer.Controller
     public class ModuleController : ControllerBase
     {
 
-        private readonly IModuleRepository _moduleRepository;
+        private readonly IModuleService _moduleService;
 
-        public ModuleController(IModuleRepository moduleRepository)
+        public ModuleController(IModuleService moduleService)
         {
-            this._moduleRepository = moduleRepository;
+            this._moduleService = moduleService;
         }
 
         [HttpPost(nameof(GetModuleTree))]
         [Route("api/Module/GetModuleTree")]
         public async Task<ActionResult> GetModuleTree()
         {
-            var list = await _moduleRepository.GetModuleList();
+            var list = await _moduleService.GetModuleList();
             return Content(JsonConvert.SerializeObject(list));
         }
     }

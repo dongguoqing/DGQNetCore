@@ -78,10 +78,11 @@ namespace LoginServer.Controller
 
         [HttpGet(nameof(DelUser))]
         [Route("api/User/DelUser")]
-        public async Task<ActionResult> DelUser(int Id)
+        public async Task<ActionResult> DelUser(string Id)
         {
             //实例化一个实体 将主键设置为
             //var userInfo = new UserInfo() { Id = Id };
+            var user = _userService.GetByID(Id);
             //_context.Set<UserInfo>().Remove(userInfo);
             //_context.SaveChanges();
             return Content("ok", "application/text");
