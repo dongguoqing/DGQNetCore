@@ -49,8 +49,6 @@ namespace LoginServer.Controller
         public async Task<ActionResult> GetUserList(int pageIndex, int pageSize)
         {
             PaginatedList<UserInfo> pagedList = await _userService.GetUserInfoAsync(pageIndex, pageSize);
-            Console.WriteLine(pagedList.Items.Count);
-            Console.WriteLine(pagedList.Count);
             //写入日志
             nLogger2.LogInformation("nloginfo2");
             nLogger2.LogError("nlogerror2", new Exception("自定义异常"));
@@ -62,7 +60,7 @@ namespace LoginServer.Controller
         public async Task<ActionResult> AddUser(UserInfo userInfo)
         {
             var userId = _accessor.HttpContext.Request.Cookies["uid"];
-            userInfo.F_DeleteMark =false;
+            userInfo.F_DeleteMark = false;
             var entity = _userService.AddUser(userInfo, userId);
             return new ContentResult() { Content = Json.ToJson(entity), ContentType = "application/json", StatusCode = 200 };
         }
@@ -108,7 +106,7 @@ namespace LoginServer.Controller
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet(nameof(GetUserById))]
-        [Route("api/Login/GetUserById")]
+        [Route("api/User/GetUserById")]
         public async Task<ActionResult> GetUserById(string id)
         {
             var user = await _userService.GetUserRoleAsync(id);
@@ -122,7 +120,7 @@ namespace LoginServer.Controller
         /// <param name="passWord"></param>
         /// <returns></returns>
         [HttpPost(nameof(UpdatePassWord))]
-        [Route("api/Login/UpdatePassWord")]
+        [Route("api/User/UpdatePassWord")]
         public async Task<ActionResult> UpdatePassWord(UserLogOn userLogOn)
         {
             userLogOn.F_UserPassword = Encrypt.EncryptText(userLogOn.F_UserPassword, "dgq");
@@ -138,7 +136,7 @@ namespace LoginServer.Controller
         /// <param name="newPassWord"></param>
         /// <returns></returns>
         [HttpPost(nameof(UpdateSelfPassWord))]
-        [Route("api/Login/UpdateSelfPassWord")]
+        [Route("api/User/UpdateSelfPassWord")]
         public async Task<ActionResult> UpdateSelfPassWord(string id, string passWord, string newPassWord)
         {
             ContentResult contentResult = new ContentResult();
@@ -161,6 +159,14 @@ namespace LoginServer.Controller
             }
 
             return contentResult;
+        }
+
+        [HttpPost(nameof(GetList))]
+        [Route("api/User/GetList")]
+        public async Task<ActionResult> GetList(string keyword, int pageIndex, int pageSize)
+        {
+            var result = await _userService.GetList(keyword, pageIndex, pageSize);
+            return Content(JsonConvert.SerializeObject(result), "application/text");
         }
     }
 }

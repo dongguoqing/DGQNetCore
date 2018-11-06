@@ -1,6 +1,7 @@
 ﻿
 using DGQ.Code;
 using DGQ.Service.Contract;
+using LoginServer.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -41,6 +42,11 @@ namespace LoginServer.Controller
         [Route("api/Login/RequestToken")]
         public async Task<ActionResult> RequestToken(LoginRequest model)
         {
+            ResultModel resultModel = new ResultModel()
+            {
+                Result = null,
+                StatusCode = 200,
+            };
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict["client_id"] = "clientPC1";
             dict["client_secret"] = "123321";
@@ -50,36 +56,50 @@ namespace LoginServer.Controller
             //外键关联查询 通过外键的名称进行关联
             //var listUser = _context.Users.Include("Role").ToList().FirstOrDefault();
             //根据用户名去查询相应的用户信息 
-            Console.WriteLine(model.Email);
             var user = await _userService.GetUserByUserName(model.Email);
             if (user != null)
             {
-                if (user.F_EnabledMark == true)
+                //密码加密 和数据库中的密码进行对比
+                var encryptPwd = Encrypt.EncryptText(model.PassWord, "dgq");
+                if (encryptPwd == user.F_UserPassword)
                 {
-                    //由登录服务器向IdentityServer发请求获取Token
-                    using (HttpClient http = new HttpClient())
-                    using (var content = new FormUrlEncodedContent(dict))
+                    if (user.F_EnabledMark == true)
                     {
-                        var msg = await http.PostAsync("http://192.168.1.47:9500/connect/token", content);
-                        UserResult result = await msg.Content.ReadAsAsync<UserResult>();
-                        //将获取的Access_Token存入缓存中 以便在后续的接口请求中判断
-                        _cache.Set("access_token", result.Access_token);
-                        Console.WriteLine(_cache.Get("access_token"));
-                        result.Email = model.Email;
-                        result.Uid = user.Id;
-                        string data = JObject.FromObject(result).ToString();
-                        return Content(data, "application/json");
+                        //由登录服务器向IdentityServer发请求获取Token
+                        using (HttpClient http = new HttpClient())
+                        using (var content = new FormUrlEncodedContent(dict))
+                        {
+                            var msg = await http.PostAsync("http://192.168.1.47:9500/connect/token", content);
+                            UserResult result = await msg.Content.ReadAsAsync<UserResult>();
+                            //将获取的Access_Token存入缓存中 以便在后续的接口请求中判断
+                            _cache.Set("access_token", result.Access_token);
+                            Console.WriteLine(_cache.Get("access_token"));
+                            result.Email = model.Email;
+                            result.Uid = user.Id;
+                            resultModel = new ResultModel()
+                            {
+                                Result = result,
+                                StatusCode = 200,
+                                StatusText = "登录成功！"
+                            };
+                        }
+                    }
+                    else
+                    {
+                        resultModel.StatusText = "账户被系统锁定，请联系管理员！";
                     }
                 }
                 else
                 {
-                    return new ContentResult() { StatusCode = 200, ContentType = "application/json", Content = "账户被系统锁定，请联系管理员！" };
+                    resultModel.StatusText = "密码不正确，请重新输入密码！";
                 }
             }
             else
             {
-                return new ContentResult() { Content = "账户不存在，请重新输入！", ContentType = "application/json", StatusCode = 200 };
+                resultModel.StatusText = "账户不存在，请重新输入！";
             }
+            string data = JObject.FromObject(resultModel).ToString();
+            return Content(data, "application/json");
         }
 
         [HttpGet(nameof(GetInfo))]

@@ -4,6 +4,10 @@ using DGQ.Service.Contract;
 using Model;
 using Model.ViewModel;
 using DGQ.Repository.Contract;
+using DGQ.Code.Extend;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace DGQ.Service
 {
@@ -33,7 +37,7 @@ namespace DGQ.Service
             return await _userRepository.GetUserRoleAsync(f_id);
         }
 
-        public UserInfo AddUser(UserInfo userInfo,string userId)
+        public UserInfo AddUser(UserInfo userInfo, string userId)
         {
             userInfo.Create(userId);
             var entity = _userRepository.Insert(userInfo);
@@ -48,14 +52,38 @@ namespace DGQ.Service
             _userRepository.Save();
         }
 
-        public  UserInfo GetByID(string id)
+        public UserInfo GetByID(string id)
         {
-            return  _userRepository.GetByID(id);
+            return _userRepository.GetByID(id);
         }
 
         public async Task<UserRoleViewModel> GetUserByUserName(string username)
         {
             return await _userRepository.GetUserByUserName(username);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<UserInfo>> GetList(string keyword, int pageIndex, int pageSize)
+        {
+            var expression = ExtLinq.True<UserInfo>();
+            if (!String.IsNullOrEmpty(keyword))
+            {
+                expression = expression.And(a => a.F_NickName == keyword);
+                expression = expression.Or(a => a.F_RealName == keyword);
+                expression = expression.Or(a => a.F_Account == keyword);
+            }
+            var resultWhere = _userRepository.Get(expression);
+            List<UserInfo> list = null;
+            int count = resultWhere.Count();
+            if (count > 0)
+                list = await resultWhere.OrderBy(a => a.F_CreatorTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PaginatedList<UserInfo>(pageIndex, pageSize, count, list);
         }
     }
 }
