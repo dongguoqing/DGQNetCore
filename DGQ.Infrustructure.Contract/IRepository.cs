@@ -14,6 +14,7 @@ namespace DGQ.Infrustructure.Contract
     public interface IRepository<TEntity> : IRepository
         where TEntity : class
     {
+
         IQueryable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -26,6 +27,8 @@ namespace DGQ.Infrustructure.Contract
         void Delete(object id);
 
         void Delete(TEntity entityToDelete);
+
+        int Delete(Expression<Func<TEntity, bool>> predicate);
 
         void Update(TEntity entityToUpdate);
 

@@ -49,7 +49,6 @@ namespace DGQ.Service
         {
             userInfo.Modify(userId);
             _userRepository.Update(userInfo);
-            _userRepository.Save();
         }
 
         public UserInfo GetByID(string id)
@@ -74,9 +73,9 @@ namespace DGQ.Service
             var expression = ExtLinq.True<UserInfo>();
             if (!String.IsNullOrEmpty(keyword))
             {
-                expression = expression.And(a => a.F_NickName == keyword);
-                expression = expression.Or(a => a.F_RealName == keyword);
-                expression = expression.Or(a => a.F_Account == keyword);
+                expression = expression.And(a => a.F_NickName == keyword&&a.F_DeleteMark==false);
+                expression = expression.Or(a => a.F_RealName == keyword && a.F_DeleteMark == false);
+                expression = expression.Or(a => a.F_Account == keyword && a.F_DeleteMark == false);
             }
             var resultWhere = _userRepository.Get(expression);
             List<UserInfo> list = null;
@@ -84,6 +83,10 @@ namespace DGQ.Service
             if (count > 0)
                 list = await resultWhere.OrderBy(a => a.F_CreatorTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
             return new PaginatedList<UserInfo>(pageIndex, pageSize, count, list);
+        }
+
+        public bool BatchDelUser(string keyValue,string userId) {
+            return _userRepository.BatchDelUser(keyValue, userId);
         }
     }
 }

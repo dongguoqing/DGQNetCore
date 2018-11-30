@@ -5,9 +5,9 @@ using System.Text;
 
 namespace DGQ.Infrustructure.Contract
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork:IDisposable
     {
-        DbTransaction BeginTransaction();
+        IUnitOfWork BeginTransaction();
 
         void CommitTransaction();
 

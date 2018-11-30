@@ -10,6 +10,8 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using DGQ.Code;
+using DGQ.Code.Extend;
+using DGQ.Infrustructure.Contract;
 
 namespace DGQ.Repository.EF
 {
@@ -27,7 +29,7 @@ namespace DGQ.Repository.EF
             int count = await listUser.CountAsync();
             List<UserInfo> list = null;
             if (count > 0)
-                list = await listUser.OrderBy(a => a.F_Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                list = await listUser.OrderBy(a => a.F_CreatorTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
             return new PaginatedList<UserInfo>(pageIndex, pageSize, count, list);
         }
 
@@ -83,6 +85,40 @@ namespace DGQ.Repository.EF
                            F_EnabledMark = a.F_EnabledMark
                        };
             return await user.FirstOrDefaultAsync();
+        }
+
+        public bool BatchDelUser(string keyValue,string userId)
+        {
+            string[] IdArray = keyValue.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var expression = ExtLinq.True<UserInfo>();
+            IUnitOfWork db = new EFUnitOfWork(Context).BeginTransaction();
+            for (var i = 0; i < IdArray.Length; i++)
+            {
+                if (i == 0)
+                    expression = expression.And(a => a.F_Id == IdArray[i]);
+                else
+                    expression = expression.Or(a => a.F_Id == IdArray[i]);
+            }
+            try
+            {
+                using (db)
+                {
+                    List<UserInfo> userList = Context.Users.Where(expression).ToList();
+                    foreach (UserInfo user in userList)
+                    {
+                        user.F_DeleteMark = true;
+                        user.F_DeleteUserId = userId;
+                        user.F_DeleteTime = DateTime.Now;
+                        Update(user);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                db.RollbackTransaction();
+                return false;
+            }
+            return true;
         }
 
 

@@ -6,26 +6,36 @@ using System.Data.Common;
 
 namespace DGQ.Infrustructure.EF
 {
-    public class EFUnitOfWork:IUnitOfWork
+    public class EFUnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly DbContext _context;
+        private DbTransaction dbTransaction = null;
 
         public EFUnitOfWork(DbContext context)
         {
             _context = context;
         }
 
-        public DbTransaction BeginTransaction()
+        public IUnitOfWork BeginTransaction()
         {
             _context.Database.BeginTransaction();
-
-            return _context.Database.CurrentTransaction.GetDbTransaction();
+            dbTransaction = _context.Database.CurrentTransaction.GetDbTransaction();
+            return this;
         }
 
         public void CommitTransaction()
         {
             _context.SaveChanges();
             _context.Database.CommitTransaction();
+        }
+
+        public void Dispose()
+        {
+            if (dbTransaction != null)
+            {
+                this.dbTransaction.Dispose();
+            }
+            this._context.Dispose();
         }
 
         public void RollbackTransaction()

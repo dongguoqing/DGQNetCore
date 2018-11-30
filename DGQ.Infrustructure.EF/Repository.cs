@@ -8,6 +8,7 @@ using System.Text;
 using Model;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data.Common;
 
 namespace DGQ.Infrustructure.EF
 {
@@ -77,6 +78,13 @@ namespace DGQ.Infrustructure.EF
             DbSet.Remove(entityToDelete);
         }
 
+        public virtual int Delete(Expression<Func<TEntity, bool>> predicate)
+        {
+            var entitys =  DbSet.Where(predicate).ToList();
+            entitys.ForEach(m => Context.Entry<TEntity>(m).State = EntityState.Deleted);
+            return Context.SaveChanges();
+        }
+
         public virtual void Update(TEntity entityToUpdate)
         {
             DbSet.Attach(entityToUpdate);
@@ -93,6 +101,7 @@ namespace DGQ.Infrustructure.EF
                         Context.Entry(entityToUpdate).Property(prop.Name).IsModified = true;
                 }
             }
+            this.Context.SaveChanges();
             //Context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 

@@ -14,5 +14,6 @@ namespace DGQ.Service.Contract
         Task<UserRoleViewModel> GetUserByUserName(string username);
         UserInfo GetByID(string id);
         Task<PaginatedList<UserInfo>> GetList(string keyword, int pageIndex, int pageSize);
+        bool BatchDelUser(string keyValue,string userId);
     }
 }

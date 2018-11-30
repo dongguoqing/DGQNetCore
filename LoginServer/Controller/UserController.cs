@@ -81,9 +81,27 @@ namespace LoginServer.Controller
             //实例化一个实体 将主键设置为
             //var userInfo = new UserInfo() { Id = Id };
             var user = _userService.GetByID(Id);
-            //_context.Set<UserInfo>().Remove(userInfo);
-            //_context.SaveChanges();
+            user.F_DeleteMark = true;
+            var userId = _accessor.HttpContext.Request.Cookies["uid"];
+            user.F_DeleteUserId = userId;
+            user.F_DeleteTime = DateTime.Now;
+            _userService.EditUser(user, Id);
             return Content("ok", "application/text");
+        }
+
+        /// <summary>
+        /// 批量删除用户(软删除)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpGet(nameof(BatchDelUser))]
+        [Route("api/User/BatchDelUser")]
+        public async Task<ActionResult> BatchDelUser(string ids)
+        {
+            var userId = _accessor.HttpContext.Request.Cookies["uid"];
+            bool rows = _userService.BatchDelUser(ids, userId);
+            string result = rows == true ? "ok" : "error";
+            return new ContentResult() { Content = result, ContentType = "application/json", StatusCode = 200 };
         }
 
         /// <summary>
@@ -161,7 +179,7 @@ namespace LoginServer.Controller
             return contentResult;
         }
 
-        [HttpPost(nameof(GetList))]
+        [HttpGet(nameof(GetList))]
         [Route("api/User/GetList")]
         public async Task<ActionResult> GetList(string keyword, int pageIndex, int pageSize)
         {
