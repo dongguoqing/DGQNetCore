@@ -27,9 +27,9 @@ namespace DGQ.Service
             return pagedList;
         }
 
-        public async Task<List<UserRole>> GetRoleList()
+        public async Task<List<UserRole>> GetRoleList(string fType="")
         {
-            return await _roleRepository.GetRoleList();
+            return await _roleRepository.GetRoleList(fType);
         }
 
     }

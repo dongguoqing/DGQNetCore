@@ -14,7 +14,7 @@ namespace LoginServer.Controller
         private readonly IRoleService _roleService;
         private readonly IOrganizeService _organizeService;
 
-        public OrganizeController(IRoleService roleService,IOrganizeService organizeService)
+        public OrganizeController(IRoleService roleService, IOrganizeService organizeService)
         {
             this._roleService = roleService;
             this._organizeService = organizeService;
@@ -26,7 +26,7 @@ namespace LoginServer.Controller
         {
             var list = await _organizeService.GetOrganizeList();
             Dictionary<string, object> dic = new Dictionary<string, object>();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 dic.Add(item.F_Id, item);
             }
@@ -39,7 +39,7 @@ namespace LoginServer.Controller
         {
             var list = await _organizeService.GetCompanyList();
             Dictionary<string, object> dic = new Dictionary<string, object>();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 dic.Add(item.F_Id, item);
             }
@@ -57,6 +57,12 @@ namespace LoginServer.Controller
                 dic.Add(item.F_Id, item);
             }
             return Content(JsonConvert.SerializeObject(dic), "application/text");
+        }
+
+        public async Task<ActionResult> GetRoleList()
+        {
+            var list = await _roleService.GetRoleList("1");
+            return Content(JsonConvert.SerializeObject(list), "application/text");
         }
     }
 }
