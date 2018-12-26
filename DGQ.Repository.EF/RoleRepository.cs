@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using DGQ.Code.Extend;
 
 namespace DGQ.Repository.EF
 {
@@ -16,10 +17,15 @@ namespace DGQ.Repository.EF
         {
         }
 
-        public async Task<List<UserRole>> GetRoleList()
+        public async Task<List<UserRole>> GetRoleList(string fType = "")
         {
+            var expression = ExtLinq.True<UserRole>();
+            if (fType != "")
+            {
+                expression = expression.And(a => a.F_Type == fType);
+            }
             var roleList = from a in Context.UserRole select a;
-            return await roleList.ToListAsync();
+            return await roleList.Where(expression).ToListAsync();
         }
 
         public async Task<PaginatedList<UserRole>> GetRoleList(int pageIndex, int pageSize)

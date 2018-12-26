@@ -9,6 +9,6 @@ namespace DGQ.Service.Contract
     public interface IRoleService : IService
     {
         Task<PaginatedList<UserRole>> GetRoleList(int pageIndex, int pageSize);
-        Task<List<UserRole>> GetRoleList();
+        Task<List<UserRole>> GetRoleList(string fType = "");
     }
 }

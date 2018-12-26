@@ -31,5 +31,6 @@ namespace DGQ.Service
         {
             return await _roleRepository.GetRoleList();
         }
+
     }
 }
