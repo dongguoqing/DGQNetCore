@@ -22,7 +22,14 @@ namespace DGQ.Repository.EF
             var expression = ExtLinq.True<UserRole>();
             if (fType != "")
             {
-                expression = expression.And(a => a.F_Type == fType);
+                string[] fTypeArray = fType.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < fTypeArray.Length; i++)
+                {
+                    if (i == 0)
+                        expression = expression.And(a => a.F_Type == fType);
+                    else
+                        expression = expression.Or(a => a.F_Type == fType);
+                }
             }
             var roleList = from a in Context.UserRole select a;
             return await roleList.Where(expression).ToListAsync();

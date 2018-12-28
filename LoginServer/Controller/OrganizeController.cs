@@ -59,9 +59,11 @@ namespace LoginServer.Controller
             return Content(JsonConvert.SerializeObject(dic), "application/text");
         }
 
+        [HttpGet(nameof(GetRoleList))]
+        [Route("api/Organize/GetRoleList")]
         public async Task<ActionResult> GetRoleList()
         {
-            var list = await _roleService.GetRoleList("1");
+            var list = await _roleService.GetRoleList("1,2");
             return Content(JsonConvert.SerializeObject(list), "application/text");
         }
     }
