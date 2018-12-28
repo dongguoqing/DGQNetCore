@@ -26,9 +26,9 @@ namespace DGQ.Repository.EF
                 for (int i = 0; i < fTypeArray.Length; i++)
                 {
                     if (i == 0)
-                        expression = expression.And(a => a.F_Type == fType);
+                        expression = expression.And(a => a.F_Type == fTypeArray[i]);
                     else
-                        expression = expression.Or(a => a.F_Type == fType);
+                        expression = expression.Or(a => a.F_Type == fTypeArray[i]);
                 }
             }
             var roleList = from a in Context.UserRole select a;
