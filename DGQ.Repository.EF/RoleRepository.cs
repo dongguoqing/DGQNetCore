@@ -25,14 +25,15 @@ namespace DGQ.Repository.EF
                 string[] fTypeArray = fType.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < fTypeArray.Length; i++)
                 {
+                    string currentType = fTypeArray[i];
                     if (i == 0)
-                        expression = expression.And(a => a.F_Type == fTypeArray[i]);
+                        expression = expression.And(a => a.F_Type == currentType);
                     else
-                        expression = expression.Or(a => a.F_Type == fTypeArray[i]);
+                        expression = expression.Or(a => a.F_Type == currentType);
                 }
             }
-            var roleList = from a in Context.UserRole select a;
-            return await roleList.Where(expression).ToListAsync();
+            //var roleList = from a in Context.UserRole select a;
+            return await Context.Set<UserRole>().Where(expression).ToListAsync();
         }
 
         public async Task<PaginatedList<UserRole>> GetRoleList(int pageIndex, int pageSize)
