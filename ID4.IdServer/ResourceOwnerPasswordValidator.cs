@@ -36,10 +36,14 @@ namespace ID4.IdServer
                     Console.WriteLine(user.F_UserPassword);
                     if (Encrypt.EncryptText(context.Password, "dgq") == user.F_UserPassword)
                     {
+                        //管理员 目前设置为admin
+                        string IsSystem = "0";
+                        if (context.UserName == "admin")
+                            IsSystem = "1";
                         context.Result = new GrantValidationResult(
                            subject: context.UserName,
                            authenticationMethod: "custom",
-                           claims: new Claim[] { new Claim("Name", context.UserName), new Claim("UserId", user.Id), new Claim("RealName", user.F_RealName), new Claim("Email", user.F_Email) }
+                           claims: new Claim[] { new Claim("IsSystem", IsSystem), new Claim("Name", context.UserName), new Claim("UserId", user.Id), new Claim("RealName", user.F_RealName), new Claim("Email", user.F_Email) }
                         );
                     }
                     else
