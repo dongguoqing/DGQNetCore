@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace DGQ.Service
 {
@@ -25,6 +26,11 @@ namespace DGQ.Service
         public async Task<List<Organize>> GetCompanyList()
         {
             return await _organizeRepository.GetCompanyList();
+        }
+
+        public List<Organize> GetList()
+        {
+            return _organizeRepository.Get().ToList();
         }
     }
 }

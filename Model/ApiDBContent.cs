@@ -20,6 +20,8 @@ namespace Model
         public DbSet<ModuleButton> ModuleButton { get; set; }
         public DbSet<Organize> Organize { get; set; }
         public DbSet<UserLogOn> UserLogOn { get; set; }
+        public DbSet<ItemsDetail> ItemsDetail { get; set; }
+        public DbSet<Items> Items { get; set; }
     }
 
     public class ApplicationContextDbFactory : IDesignTimeDbContextFactory<ApiDBContent>

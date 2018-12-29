@@ -10,5 +10,6 @@ namespace DGQ.Service.Contract
     {
         Task<List<Organize>> GetCompanyList();
         Task<List<Organize>> GetOrganizeList();
+        List<Organize> GetList();
     }
 }

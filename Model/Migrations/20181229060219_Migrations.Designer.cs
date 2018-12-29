@@ -3,61 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Model;
 
 namespace Model.Migrations
 {
     [DbContext(typeof(ApiDBContent))]
-    partial class ApiDBContentModelSnapshot : ModelSnapshot
+    [Migration("20181229060219_Migrations")]
+    partial class Migrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Model.Items", b =>
-                {
-                    b.Property<string>("F_Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("F_CreatorTime");
-
-                    b.Property<string>("F_CreatorUserId");
-
-                    b.Property<string>("F_DeleteMark");
-
-                    b.Property<string>("F_DeleteTime");
-
-                    b.Property<string>("F_DeleteUserId");
-
-                    b.Property<string>("F_Description");
-
-                    b.Property<string>("F_EnCode");
-
-                    b.Property<string>("F_EnabledMark");
-
-                    b.Property<string>("F_FullName");
-
-                    b.Property<string>("F_IsTree");
-
-                    b.Property<DateTime?>("F_LastModifyTime");
-
-                    b.Property<string>("F_LastModifyUserId");
-
-                    b.Property<string>("F_Layers");
-
-                    b.Property<string>("F_ParentId");
-
-                    b.Property<string>("F_SortCode");
-
-                    b.HasKey("F_Id");
-
-                    b.ToTable("Items");
-                });
 
             modelBuilder.Entity("Model.ItemsDetail", b =>
                 {
@@ -86,7 +48,7 @@ namespace Model.Migrations
 
                     b.Property<string>("F_ItemName");
 
-                    b.Property<DateTime?>("F_LastModifyTime");
+                    b.Property<string>("F_LastModifyTime");
 
                     b.Property<string>("F_LastModifyUserId");
 
