@@ -78,5 +78,21 @@ namespace LoginServer.Controller
             }
             return dictionary;
         }
+
+        public async Task<Object> GetDutyList()
+        {
+            var data = await _roleService.GetRoleList("2");
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            foreach (UserRole item in data)
+            {
+                var fieldItem = new
+                {
+                    encode = item.F_EnCode,
+                    fullname = item.F_FullName
+                };
+                dictionary.Add(item.F_Id, fieldItem);
+            }
+            return dictionary;
+        }
     }
 }

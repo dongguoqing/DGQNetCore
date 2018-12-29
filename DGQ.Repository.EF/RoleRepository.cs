@@ -27,9 +27,9 @@ namespace DGQ.Repository.EF
                 {
                     string currentType = fTypeArray[i];
                     if (i == 0)
-                        expression = expression.And(a => a.F_Type == currentType);
+                        expression = expression.And(a => a.F_Category.ToString() == currentType);
                     else
-                        expression = expression.Or(a => a.F_Type == currentType);
+                        expression = expression.Or(a => a.F_Category.ToString() == currentType);
                 }
             }
             //var roleList = from a in Context.UserRole select a;
